@@ -1,9 +1,32 @@
-- @entries.each do |time|
+%form{ :id => "time-entry", :action => "/entry", :method => "post"}
   %p
-    = time.date
-    %br
-    = time.desc
-    %br
-    = time.duration
-  %hr
+    %label Date:
+    %input{ :name => "date", :id => "date", :type => "text"}
+  %p
+    %label Project:
+    %select{ :name => "project", :id => "project"}
+      %option=Project.get(1).name
+
+%table
+  %tr
+    %th Date
+    %th Client
+    %th Project
+    %th Description
+    %th Name
+    %th Duration
+  - @entries.each do |time|
+    %tr
+      %td
+        = time.date
+      %td
+        = time.project.client.name
+      %td
+        = time.project.name
+      %td
+        = time.desc
+      %td
+        = time.user.fullname
+      %td
+        = time.duration
   

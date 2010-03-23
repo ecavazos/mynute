@@ -54,7 +54,7 @@ task :migrate do
     :billing_type => BillingType::Billable,
     :project      => project1,
     :user         => user1
-  })
+  }).save
   
   TimeEntry.new({
     :desc         => "Working on spike code",
