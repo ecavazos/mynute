@@ -1,0 +1,32 @@
+%form{ :id => "time-entry", :action => "/entry", :method => "post"}
+  .form-row
+    .form-col
+      %label User:
+      %select{ :name => "user", :id => "user"}
+        -lookup_options(User, :fullname)
+    .form-col
+      %label Type:
+      %select{ :name => "entry_type", :id => "entry_type"}
+        -constants_to_options(EntryType)
+    .form-col
+      %label Project:
+      %select{ :name => "project", :id => "project"}
+        -lookup_options(Project)
+    .form-col
+      %label Billing Type:
+      %select{ :name => "billing_type", :id => "billing_type"}
+        -constants_to_options(BillingType)
+  .form-row
+    .form-col
+      %label Date:
+      %input{ :name => "date", :id => "date", :type => "text"}
+    .form-col
+      %label Duration:
+      %input{ :name => "duration", :id => "duration", :type => "text"}
+  .form-row
+    .form-col
+      %label Description:
+      %textarea{ :name => "desc", :id => "desc", :rows => 3}
+  .form-row
+    .form-col
+      %input{ :name => "submit", :id => "submit", :type => "submit", :value => "Submit" }

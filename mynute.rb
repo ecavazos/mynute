@@ -20,3 +20,8 @@ get "/" do
   @entries = TimeEntry.all
   haml :home
 end
+
+get '/css/:stylesheet.css' do
+  content_type 'text/css', :charset => 'utf-8'
+  sass :"stylesheets/#{params[:stylesheet]}", :style => :compact
+end

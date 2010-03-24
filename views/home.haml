@@ -1,50 +1,35 @@
-%form{ :id => "time-entry", :action => "/entry", :method => "post"}
-  %p
-    %label Date:
-    %input{ :name => "date", :id => "date", :type => "text"}
-  %p
-    %label Project:
-    %select{ :name => "project", :id => "project"}
-      -lookup_options(Project)
-  %p
-    %label Type:
-    %select{ :name => "entry_type", :id => "entry_type"}
-      -constants_to_options(EntryType)
-  %p
-    %label Billing Type:
-    %select{ :name => "billing_type", :id => "billing_type"}
-      -constants_to_options(BillingType)
-  %p
-    %label Description:
-    %textarea{ :name => "desc", :id => "desc"}
-  %p
-    %label Duration:
-    %input{ :name => "duration", :id => "duration", :type => "text"}
-  %p
-    %label User:
-    %select{ :name => "user", :id => "user"}
-      -lookup_options(User, :fullname)
+= haml(:_time_form, :layout => false)
 
-%table
-  %tr
-    %th Date
-    %th Client
-    %th Project
-    %th Description
-    %th Name
-    %th Duration
-  - @entries.each do |time|
-    %tr
-      %td
-        = time.date
-      %td
-        = time.project.client.name
-      %td
-        = time.project.name
-      %td
-        = time.desc
-      %td
-        = time.user.fullname
-      %td
-        = time.duration
+.row
+  %div{ :class => "column grid_12"}
+    %table.entries
+      %tr
+        %th User
+        %th Type
+        %th Client
+        %th Project
+        %th Billing Type
+        %th Date
+        %th Duration
+        %th Description
+        
+      - @entries.each do |time|
+        %tr
+          %td
+            = time.user.fullname
+          %td
+            = time.entry_type
+          %td
+            = time.project.client.name
+          %td
+            = time.project.name
+          %td
+            = time.billing_type
+          %td
+            = time.date
+          %td
+            = time.duration
+            hrs
+          %td
+            = time.desc
   

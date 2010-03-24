@@ -2,6 +2,11 @@
 %html
   %head
     %title mynute
+    %link{:href => "/css/reset.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "/css/main.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "/css/grid.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}
     
   %body
-    = yield
+    #main
+      %h1 mynute
+      = yield
