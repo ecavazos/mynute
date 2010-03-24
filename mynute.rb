@@ -3,10 +3,8 @@ require "sinatra"
 require "haml"
 require "sass"
 require "dm-core"
-
-dir = File.dirname(__FILE__) + "/models/"
-$:.unshift(dir)
-Dir[File.join(dir, "*.rb")].each { |file| require File.basename(file) }
+require "lib/models"
+require "lib/helpers"
 
 set :haml, {:format => :html5 }
 

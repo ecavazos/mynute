@@ -1,9 +1,6 @@
 require "rubygems"
 require "dm-core"
-
-dir = File.dirname(__FILE__) + "/models/"
-$:.unshift(dir)
-Dir[File.join(dir, "*.rb")].each { |file| require File.basename(file) }
+require "lib/models"
 
 task :migrate do
   DataMapper::Logger.new($stdout, :debug)

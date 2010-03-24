@@ -1,5 +1,5 @@
 class EntryType
-  Feature   = "Feature"
   Task      = "Task"
+  Feature   = "Feature"
   Incident  = "Incident"
 end
