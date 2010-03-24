@@ -12,6 +12,10 @@ configure do
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db/mynute.db")
 end
 
+helpers do
+  include Mynute::Helpers
+end
+
 get "/" do
   @entries = TimeEntry.all
   haml :home
