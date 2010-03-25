@@ -11,4 +11,8 @@ class TimeEntry
   
   belongs_to :user
   belongs_to :project
+  
+  def display_date
+    self.date.strftime("%m/%d/%Y")
+  end
 end
