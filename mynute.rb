@@ -3,6 +3,7 @@ require "sinatra"
 require "haml"
 require "sass"
 require "dm-core"
+require "dm-serializer/to_json"
 require "lib/models"
 require "lib/helpers"
 
@@ -25,7 +26,8 @@ get "/" do
 end
 
 get "/time/:id" do
-  TimeEntry.get(params[:id])
+  content_type :json
+  TimeEntry.get(params[:id]).to_json(:methods => [:user, :project])
 end
 
 post "/time" do
@@ -40,9 +42,12 @@ end
 
 post "/time/:id" do
   entry = TimeEntry.get(params[:id])
+  entry.user = User.get(params.delete(:user_id))
+  entry.project = Project.get(params.delete(:project_id))
   entry.update(params)
   if entry.save
-    entry
+    @entries = TimeEntry.all(:order => [:date.desc])
+    haml :_grid, :layout => false
   else
     "fail"
   end
@@ -51,6 +56,8 @@ end
 delete "/time/:id" do
   entry = TimeEntry.get(params[:id])
   entry.destroy!
+  @entries = TimeEntry.all(:order => [:date.desc])
+  haml :_grid, :layout => false 
 end
 
 get "/css/:stylesheet.css" do

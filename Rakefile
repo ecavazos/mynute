@@ -45,7 +45,7 @@ task :migrate do
   
   TimeEntry.new({
     :desc         => "Creating seed data",
-    :date         => "3/24/2010",
+    :date         => Date.today,
     :duration     => 1.5,
     :entry_type   => EntryType::Task,
     :billing_type => BillingType::Billable,
