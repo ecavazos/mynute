@@ -11,6 +11,7 @@ VERSION = "0.0.1"
 set :haml, {:format => :html5 }
 
 configure do
+  DataMapper::Logger.new($stdout, :debug)
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db/mynute.db")
 end
 
@@ -19,7 +20,7 @@ helpers do
 end
 
 get "/" do
-  @entries = TimeEntry.all
+  @entries = TimeEntry.all(:order => [:date.desc])
   haml :home
 end
 
@@ -30,7 +31,8 @@ end
 post "/time" do
   entry = TimeEntry.new(params)
   if entry.save
-    entry
+    @entries = TimeEntry.all(:order => [:date.desc])
+    haml :_grid, :layout => false
   else
     "fail"
   end
@@ -51,7 +53,7 @@ delete "/time/:id" do
   entry.destroy!
 end
 
-get '/css/:stylesheet.css' do
-  content_type 'text/css', :charset => 'utf-8'
+get "/css/:stylesheet.css" do
+  content_type "text/css", :charset => "utf-8"
   sass :"stylesheets/#{params[:stylesheet]}", :style => :compact
 end

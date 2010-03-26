@@ -1,0 +1,35 @@
+%table.entries
+  %tr
+    %th User
+    %th Type
+    %th Client
+    %th Project
+    %th Billing Type
+    %th Date
+    %th Duration
+    %th Description
+    %th{:colspan => 2}
+    
+  - @entries.each do |time|
+    %tr
+      %td
+        = time.user.fullname
+      %td
+        = time.entry_type
+      %td
+        = time.project.client.name
+      %td
+        = time.project.name
+      %td
+        = time.billing_type
+      %td
+        = time.display_date
+      %td
+        = time.duration
+        hrs
+      %td
+        = time.desc
+      %td
+        %a.edit{:href => "/time/#{time.id}"} Edit
+      %td
+        %a.delete{:href => "/time/#{time.id}"} Delete

@@ -20,8 +20,9 @@ $(function () {
       url: "/time",
       type: "POST",
       data: $(this).serialize(),
+      dataType: "html",
       success: function (result){
-        console.log(result);
+        $(result).replaceAll(".entries");
       }
     });
     event.preventDefault();
