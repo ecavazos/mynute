@@ -12,6 +12,7 @@ Mynute.prototype = {
     form.attr("action", "/time");
     form.show();
     self.setDate();
+    self.showLoad();
     event.preventDefault();
   },
   
@@ -85,6 +86,42 @@ Mynute.prototype = {
     this.bindEditAndDelete();
   },
   
+  showLoad: function () {
+    $("body").append('<div id="curtain"></div>'
+      + '<div id="loader">'
+      + '<img src="/images/ajax-loader.gif" alt="loading" />'
+      + '</div>');
+      
+    var pos = this.form.offset();
+    var dim = { width: this.form.outerWidth(), height: this.form.outerHeight() };
+    
+    $("#loader").css({
+      background: "#fff",
+      border: "solid 1px #bebebe",
+      padding: "4px 0 0 4px",
+      position: "absolute",
+      width: "36px",
+      height: "36px",
+      "z-index": 100
+    });
+    
+    $("#loader").css({
+      left: pos.left + (dim.width - $("#loader").outerWidth()) / 2,
+      top: pos.top + (dim.height - $("#loader").outerHeight()) / 2
+    });
+    
+    $("#curtain").css({
+      background: "#000",
+      position: "absolute",
+      left: pos.left,
+      top: pos.top,
+      width: dim.width,
+      height: dim.height,
+      opacity: 0.4,
+      "z-index": 99
+    });
+  },
+  
   setDate: function () {
     var today = new Date();
     var dt = (today.getMonth() + 1)
@@ -96,11 +133,9 @@ Mynute.prototype = {
 
 $(function () {
   var mynute = new Mynute();
-  
   $(".add-time").bind("click", mynute, mynute.showNewForm);
   $(".discard").bind("click", mynute, mynute.discardForm);
   $("#time-entry").bind("submit", mynute, mynute.submitForm);
   $(".edit").bind("click", mynute, mynute.showEditForm);
   $(".delete").bind("click", mynute, mynute.deleteTimeEntry);
-
 });
