@@ -9,13 +9,13 @@ module Paginator
                 :prev_page
 
     def initialize(options = {})
-      @total = options[:total].to_i
-      @page = options[:page].to_i
-      @limit = options[:limit].to_i
-      @offset = options[:offset].to_i
+      @total      = options[:total]
+      @page       = options[:page]
+      @limit      = options[:limit]
+      @offset     = options[:offset]
       @page_count = calculate_page_count
-      @next_page = page + 1 unless page == page_count
-      @prev_page = page - 1 unless page == 1
+      @next_page  = page + 1 unless page == page_count
+      @prev_page  = page - 1 unless page == 1
     end
 
     private
