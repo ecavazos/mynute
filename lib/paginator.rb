@@ -8,17 +8,7 @@ module Paginator
   
   module ClassMethods
     def paginate(options = {})
-      default = {
-        :page => 1,
-        :limit => 10,
-        :order => :id.desc
-      }
-    
-      options[:page] = options[:page].to_i > 0 ? options[:page] : default[:page]
-      options[:limit] = (options[:limit] || default[:limit]).to_i
-      options[:offset] = options[:limit] * (options[:page] - 1)
-      options[:order] = options[:order] || default[:order]
-
+      options = init_options(options)
       page = options.delete :page
       query = options.dup
     
@@ -36,7 +26,22 @@ module Paginator
     end
   
     private
-  
+    
+    def init_options(options)
+      default = {
+        :page => 1,
+        :limit => 10,
+        :order => :id.desc
+      }
+    
+      options[:page] = options[:page].to_i > 0 ? options[:page] : default[:page]
+      options[:limit] = (options[:limit] || default[:limit]).to_i
+      options[:offset] = options[:limit] * (options[:page] - 1)
+      options[:order] = options[:order] || default[:order]
+      
+      options
+    end
+    
     def calculate_total_records(query)
       query.delete :page
       query.delete :limit
