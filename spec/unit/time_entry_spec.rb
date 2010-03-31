@@ -1,5 +1,5 @@
 require "spec/spec_helper"
-require "lib/models/time_entry"
+require "lib/models.rb"
 
 describe TimeEntry do
   describe "parse_date" do

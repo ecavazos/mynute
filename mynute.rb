@@ -60,6 +60,10 @@ delete "/time/:id" do
   haml :_grid, :layout => false 
 end
 
+get "/blah" do
+  TimeEntry.count.to_s
+end
+
 get "/css/:stylesheet.css" do
   content_type "text/css", :charset => "utf-8"
   sass :"stylesheets/#{params[:stylesheet]}", :style => :compact

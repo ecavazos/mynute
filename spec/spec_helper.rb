@@ -2,7 +2,6 @@ require "rubygems"
 require "spec"
 require "spec/autorun"
 require "spec/interop/test"
-require "mynute"
 require "sinatra"
 require "rack/test"
  

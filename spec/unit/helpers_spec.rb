@@ -11,7 +11,10 @@ describe Mynute::Helpers do
   end
   
   it "should read the constatnts of class into option tags" do
-    helper.should_receive(:haml_tag).exactly(3).times
+    helper.should_receive(:haml_tag).with(:option, "Billable")
+    helper.should_receive(:haml_tag).with(:option, "Non Billable")
+    helper.should_receive(:haml_tag).with(:option, "No Charge")
+    
     helper.constants_to_options(BillingType)
   end
   

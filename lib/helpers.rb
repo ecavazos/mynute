@@ -2,7 +2,7 @@ module Mynute
   module Helpers
     def constants_to_options(klass)
       klass.constants.each do |c|
-        haml_tag :option, klass.class_eval("#{c}")
+        haml_tag :option, klass.const_get(c)
       end
     end
   
