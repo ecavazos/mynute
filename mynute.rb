@@ -5,11 +5,14 @@ require "sass"
 require "dm-core"
 require "dm-serializer/to_json"
 require "lib/models"
+require "lib/core"
 require "lib/helpers"
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 set :haml, {:format => :html5 }
+
+include Mynute::Core
 
 configure do
   DataMapper::Logger.new($stdout, :debug)
@@ -21,7 +24,8 @@ helpers do
 end
 
 get "/" do
-  @entries = TimeEntry.all(:order => [:date.desc])
+  @entries = TimeEntry.paginate(:limit => 5, :order => :date.desc)
+  @pager_json = pager_json(@entries.pager)
   haml :home
 end
 
@@ -33,7 +37,7 @@ end
 post "/time" do
   entry = TimeEntry.new(params)
   if entry.save
-    @entries = TimeEntry.all(:order => [:date.desc])
+    @entries = TimeEntry.all(:order => :date.desc)
     haml :_grid, :layout => false
   else
     "fail"
@@ -46,7 +50,7 @@ post "/time/:id" do
   entry.project = Project.get(params.delete(:project_id))
   entry.update(params)
   if entry.save
-    @entries = TimeEntry.all(:order => [:date.desc])
+    @entries = TimeEntry.all(:order => :date.desc)
     haml :_grid, :layout => false
   else
     "fail"
@@ -56,12 +60,12 @@ end
 delete "/time/:id" do
   entry = TimeEntry.get(params[:id])
   entry.destroy!
-  @entries = TimeEntry.all(:order => [:date.desc])
+  @entries = TimeEntry.all(:order => :date.desc)
   haml :_grid, :layout => false 
 end
 
-get "/blah" do
-  TimeEntry.count.to_s
+get "/page/:num" do
+  TimeEntry.paginate(:page => params[:num], :order => :date.desc)
 end
 
 get "/css/:stylesheet.css" do

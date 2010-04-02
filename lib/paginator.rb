@@ -1,4 +1,4 @@
-require "paginator/pager"
+require "lib/paginator/pager"
 
 module Paginator
   

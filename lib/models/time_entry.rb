@@ -1,5 +1,8 @@
+require "lib/paginator"
+
 class TimeEntry
   include DataMapper::Resource
+  include Paginator
   
   property :id,           Serial
   property :desc,         String
