@@ -2,9 +2,20 @@ var Mynute = Mynute || {};
 
 Mynute.App = function () {
   this.form = $("#time-entry");
+  this.initAjaxCallbacks();
 };
 
 Mynute.App.prototype = {
+
+  initAjaxCallbacks: function () {
+    $("body")
+      .ajaxStop(function () {
+        Mynute.loader.remove();
+      })
+      .ajaxError(function (event, xhr, ajaxOptions, thrownError) {
+        console.log("XHR Response: " + xhr);
+      });
+  },
 
   showNewForm: function (event) {
     var self = event.data;
@@ -23,7 +34,6 @@ Mynute.App.prototype = {
     $.ajax({
       url: $(this).attr("href"),
       success: function (entry) {
-        Mynute.loader.remove();
         self.form.attr("action", "/time/" + entry.id);
         $("#user_id").val(entry.user.id);
         $("#entry_type").val(entry.entry_type);
@@ -73,25 +83,25 @@ Mynute.App.prototype = {
     });
     event.preventDefault();
   },
-  
+
   bindEditAndDelete: function () {
     $(".edit").bind("click", this, this.showEditForm);
     $(".delete").bind("click", this, this.deleteTimeEntry);
   },
-  
+
   resetFormValues: function () {
     $("input[id!=submit], textarea").val("");
     $("option").attr("selected", false);
     this.setDate();
   },
-  
+
   postSuccess: function (result) {
     Mynute.loader.remove();
     $(result).replaceAll(".entries");
     this.resetFormValues();
     this.bindEditAndDelete();
   },
-  
+
   setDate: function () {
     var today = new Date();
     var dt = (today.getMonth() + 1)

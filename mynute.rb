@@ -2,6 +2,7 @@ require "rubygems"
 require "sinatra"
 require "haml"
 require "sass"
+require "json"
 require "dm-core"
 require "dm-serializer/to_json"
 require "lib/models"
@@ -25,7 +26,7 @@ end
 
 get "/" do
   @entries = TimeEntry.paginate(:limit => 5, :order => :date.desc)
-  @pager_json = pager_json(@entries.pager)
+  @pager_json = pager_html(@entries.pager)
   haml :home
 end
 
@@ -64,8 +65,14 @@ delete "/time/:id" do
   haml :_grid, :layout => false 
 end
 
-get "/page/:num" do
-  TimeEntry.paginate(:page => params[:num], :order => :date.desc)
+get "/entries" do
+  content_type :json
+  @entries = TimeEntry.paginate(:page => params[:page], :order => :date.desc)
+  grid = escape_html(haml(:_grid, :layout => false)).to_json
+  "{"\
+  + "\"grid\":#{grid},"\
+  + "\"pager\":#{pager_json(@entries.pager)}"\
+  + "}"
 end
 
 get "/css/:stylesheet.css" do

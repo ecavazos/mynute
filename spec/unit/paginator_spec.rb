@@ -26,6 +26,10 @@ describe Paginator do
     Poop.paginate.pager.page.should == 1
   end
   
+  it "should convert string page number to integer" do
+    Poop.paginate(:page => "2")
+  end
+
   it "should get page 3" do
     Poop.paginate(:page => 3).pager.page.should == 3
   end

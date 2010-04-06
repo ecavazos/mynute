@@ -5,7 +5,7 @@ module Mynute
         haml_tag :option, klass.const_get(c)
       end
     end
-  
+
     def lookup_options(entity_klass, attr_name=nil)
       attr_name ||= :name
       entity_klass.all.each do |e|

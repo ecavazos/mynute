@@ -1,5 +1,6 @@
+var app;
 $(function () {
-  var app = new Mynute.App();
+  app = new Mynute.App();
   Mynute.paginator.paginate(pagerJson);
   $(".add-time").bind("click", app, app.showNewForm);
   $(".discard").bind("click", app, app.discardForm);

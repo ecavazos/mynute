@@ -6,14 +6,17 @@ Mynute.paginator = {
     
     // params = { total: 14, page: 1, limit: 5, pageCount: 3 }; 
     var _params = params || {},
+        _self   = this,
         _window = 5,
-        _table  = $(".entries"), 
+        _table  = ".entries", 
+        _status = "#status",
+        _pager  = "#pager",
         _pages  = [];
 
     function startVal(end) {
       if (_params.pageCount < 10 || end - 10 < 0)
         return 1;
-        
+
       return end - 10;
     }
 
@@ -31,7 +34,7 @@ Mynute.paginator = {
     }
 
     function prevLink() {
-      if (_params.page > 0)
+      if (_params.page > 1)
         return '<a href="">« Previous</a>';
 
       return '<span>« Previous</span>';
@@ -58,32 +61,44 @@ Mynute.paginator = {
       return '<a href="">Last</a>';
     }
 
+    function validatePageNumber(page) {
+      if (page.match(/first/i)) {
+        return 1;
+      } else if (page.match(/previous/i)) {
+        return _params.page - 1;
+      } else if (page.match(/next/i)) {
+        return _params.page + 1;
+      } else if (page.match(/last/i)) {
+        return _params.numberOfPages;
+      } else {
+        return page;
+      }
+    }
+
+    function unescapeHtml(html) {
+      var node = document.createElement('div');
+      node.innerHTML = html;
+      if (node.innerText) return node.innerText; // ie
+      return node.textContent;
+    }
+
     function pagerClickHandler(e) {
-        var page = $(this).text();
+      e.preventDefault();
+      var page = validatePageNumber($(this).text());
 
-        if (page.match(/first/i)) {
-            page = 0;
-        } else if (page.match(/previous/i)) {
-            page = _params.page - 1;
-        } else if (page.match(/next/i)) {
-            page = _params.page + 1;
-        } else if (page.match(/last/i)) {
-            page = _params.numberOfPages - 1;
-        } else {
-            page = page - 1;
-        }
+      Mynute.loader.show($(_table));
 
-        var postData = {
-            'sort-by': _params.sortBy,
-            'alpha': _params.alpha,
-            'page': page,
-            'page-size': _params.pageSize
-        };
+      var data = {
+        page: page
+      };
 
-        var url = '/entries?' + $.param(postData);
-        location.href = url;
-
-        e.preventDefault();
+      $.get("/entries", data, function (data, textStatus) {
+        $("#pager,#status").remove();
+        $(unescapeHtml(data.grid)).replaceAll(".entries");
+        app.bindEditAndDelete();
+        _params = data.pager;
+        init();
+      });
     }
 
     function statusMarkup() {
@@ -97,11 +112,12 @@ Mynute.paginator = {
     }
 
     function init() {
-
       if (_params.total == 0) {
         // _table.replaceWith('<div id="no-results">no results</div>');
         return;
       }
+
+      _pages = [];
 
       var end = endVal();
       var start = startVal(end);
@@ -115,7 +131,7 @@ Mynute.paginator = {
       _pages.push(nextLink());
       _pages.push(lastLink());
 
-      _table.after(pagerMarkup(_pages));
+      $(_table).after(pagerMarkup(_pages));
       $("#pager").after(statusMarkup());
 
       $("#pager a").bind("click", pagerClickHandler);

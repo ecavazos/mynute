@@ -34,7 +34,7 @@ module Paginator
         :order => :id.desc
       }
     
-      options[:page] = options[:page].to_i > 0 ? options[:page] : default[:page]
+      options[:page] = options[:page].to_i > 0 ? options[:page].to_i : default[:page]
       options[:limit] = (options[:limit] || default[:limit]).to_i
       options[:offset] = options[:limit] * (options[:page] - 1)
       options[:order] = options[:order] || default[:order]
