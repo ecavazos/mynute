@@ -1,11 +1,8 @@
 var Mynute = Mynute || {};
 
-Mynute.App = function () {
-  this.form = $("#time-entry");
-  this.initAjaxCallbacks();
-};
-
-Mynute.App.prototype = {
+Mynute.app = {
+  
+  form: $("#time-entry"),
 
   initAjaxCallbacks: function () {
     $("body")
@@ -17,24 +14,34 @@ Mynute.App.prototype = {
       });
   },
 
+  initEvents: function () {
+    $(".add-time").live("click", Mynute.app.showNewForm);
+    $(".discard").live("click", Mynute.app.discardForm);
+    $("#time-entry").live("submit", Mynute.app.submitForm);
+    $(".edit").live("click", Mynute.app.showEditForm);
+    $(".delete").live("click", Mynute.app.deleteTimeEntry);
+  },
+
   showNewForm: function (event) {
-    var self = event.data;
-    var form = self.form;
-    if (form.css("display") == "block") return false;
+    var form = Mynute.app.form;
+    if (form.css("display") == "block") {
+      // TODO: notify user to submit or discard their changes before
+      // trying to add a new entry
+      return false;
+    }
     form.attr("action", "/time");
     form.show();
-    self.setDate();
+    Mynute.app.setDate();
     event.preventDefault();
   },
   
   showEditForm: function (event) {
-    var self = event.data;
-    if (self.form.css("display") != "block") self.form.show();
-    Mynute.loader.show(self.form);
+    if (Mynute.app.form.css("display") != "block") Mynute.app.form.show();
+    Mynute.loader.show(Mynute.app.form);
     $.ajax({
       url: $(this).attr("href"),
       success: function (entry) {
-        self.form.attr("action", "/time/" + entry.id);
+        Mynute.app.form.attr("action", "/time/" + entry.id);
         $("#user_id").val(entry.user.id);
         $("#entry_type").val(entry.entry_type);
         $("#project_id").val(entry.project.id);
@@ -48,29 +55,27 @@ Mynute.App.prototype = {
   },
   
   discardForm: function (event) {
-    var self = event.data;
-    self.form.hide();
-    self.resetFormValues();
+    Mynute.app.form.hide();
+    Mynute.app.resetFormValues();
     event.preventDefault();
   },
   
   submitForm: function (event) {
-    var self = event.data;
-    Mynute.loader.show(self.form);
+    Mynute.loader.show(Mynute.app.form);
     $.ajax({
       url: $(this).attr("action"),
       type: "POST",
       data: $(this).serialize(),
       dataType: "html",
       success: function (result) {
-        self.postSuccess.call(self, result);
+        // TODO: get back paged results
+        Mynute.app.postSuccess(result);
       }
     });
     event.preventDefault();
   },
   
   deleteTimeEntry: function (event) {
-    var self = event.data;
     Mynute.loader.show($(".entries"));
     $.ajax({
       url: $(this).attr("href"),
@@ -78,7 +83,6 @@ Mynute.App.prototype = {
       success: function (result) {
         Mynute.loader.remove();
         $(result).replaceAll(".entries");
-        self.bindEditAndDelete();
       }
     });
     event.preventDefault();

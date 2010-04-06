@@ -1,5 +1,7 @@
 var Mynute = Mynute || {};
 
+// require: loader.js
+
 Mynute.paginator = {
 
   paginate: function(params) {
@@ -79,7 +81,7 @@ Mynute.paginator = {
       var node = document.createElement('div');
       node.innerHTML = html;
       if (node.innerText) return node.innerText; // ie
-      return node.textContent;
+      return node.textContent; // real browsers
     }
 
     function pagerClickHandler(e) {
@@ -94,9 +96,8 @@ Mynute.paginator = {
       };
 
       $.get("/entries", data, function (data, textStatus) {
-        $("#pager,#status").remove();
-        $(unescapeHtml(data.grid)).replaceAll(".entries");
-        app.bindEditAndDelete();
+        $([_pager, _status].join(",")).remove();
+        $(unescapeHtml(data.grid)).replaceAll(_table);
         _params = data.pager;
         init();
       });
@@ -113,11 +114,6 @@ Mynute.paginator = {
     }
 
     function init() {
-      if (_params.total == 0) {
-        // _table.replaceWith('<div id="no-results">no results</div>');
-        return;
-      }
-
       _pages = [];
 
       var end = endVal();
@@ -133,7 +129,7 @@ Mynute.paginator = {
       _pages.push(lastLink());
 
       $(_table).after(pagerMarkup(_pages));
-      $("#pager").after(statusMarkup());
+      $(_pager).after(statusMarkup());
 
       $("#pager a").bind("click", pagerClickHandler);
     }
