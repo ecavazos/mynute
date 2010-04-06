@@ -67,7 +67,7 @@ end
 
 get "/entries" do
   content_type :json
-  @entries = TimeEntry.paginate(:page => params[:page], :order => :date.desc)
+  @entries = TimeEntry.paginate(:page => params[:page], :limit => params[:limit], :order => :date.desc)
   grid = escape_html(haml(:_grid, :layout => false)).to_json
   "{"\
   + "\"grid\":#{grid},"\

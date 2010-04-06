@@ -27,7 +27,7 @@ Mynute.paginator = {
     }
 
     function firstLink() {
-      if (_params.page > 0)
+      if (_params.page > 1)
         return '<a href="">First</a>';
 
       return '<span>First</span>';
@@ -69,7 +69,7 @@ Mynute.paginator = {
       } else if (page.match(/next/i)) {
         return _params.page + 1;
       } else if (page.match(/last/i)) {
-        return _params.numberOfPages;
+        return _params.pageCount;
       } else {
         return page;
       }
@@ -89,7 +89,8 @@ Mynute.paginator = {
       Mynute.loader.show($(_table));
 
       var data = {
-        page: page
+        page: page,
+        limit: 5
       };
 
       $.get("/entries", data, function (data, textStatus) {
