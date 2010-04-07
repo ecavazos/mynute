@@ -50,14 +50,14 @@ Mynute.paginator = {
     }
 
     function nextLink() {
-      if (_params.pageCount <= _params.page + 1)
+      if (_params.pageCount == _params.page)
         return '<span>Next »</span>';
 
       return '<a href="">Next »</a>';
     }
 
     function lastLink() {
-      if (_params.pageCount <= _params.page)
+      if (_params.pageCount == _params.page)
         return '<span>Last</span>';
 
       return '<a href="">Last</a>';

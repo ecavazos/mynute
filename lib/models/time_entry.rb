@@ -15,6 +15,10 @@ class TimeEntry
   belongs_to :user
   belongs_to :project
   
+  def self.page_default
+    paginate(:limit => 5, :order => :date.desc)
+  end
+
   def display_date
     self.date.strftime("%m/%d/%Y")
   end

@@ -10,7 +10,12 @@ Mynute.app = {
         Mynute.loader.remove();
       })
       .ajaxError(function (event, xhr, ajaxOptions, thrownError) {
-        console.log("XHR Response: " + xhr);
+        $("#error").remove();
+        $("body").prepend('<div id="error"></div>');
+        $("#error").text(xhr.responseText)
+          .fadeOut(4000, function () {
+            $("#error").remove();
+          });
       });
   },
 
@@ -25,8 +30,13 @@ Mynute.app = {
   showNewForm: function (event) {
     var form = Mynute.app.form;
     if (form.css("display") == "block") {
-      // TODO: notify user to submit or discard their changes before
-      // trying to add a new entry
+      $("#warning").remove();
+      $("body").prepend('<div id="warning"></div>');
+      $("#warning").text("You must submit or discard your changes before adding a new time entry")
+        .fadeOut(5000, function () {
+          $("#warning").remove();
+        });
+      
       return false;
     }
     form.attr("action", "/time");

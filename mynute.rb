@@ -9,11 +9,9 @@ require "lib/models"
 require "lib/core"
 require "lib/helpers"
 
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 
 set :haml, {:format => :html5 }
-
-include Mynute::Core
 
 configure do
   DataMapper::Logger.new($stdout, :debug)
@@ -21,11 +19,12 @@ configure do
 end
 
 helpers do
+  include Mynute::Core
   include Mynute::Helpers
 end
 
 get "/" do
-  @entries = TimeEntry.paginate(:limit => 5, :order => :date.desc)
+  @entries = TimeEntry.page_default
   @pager_json = pager_html(@entries.pager)
   haml :home
 end
@@ -38,10 +37,10 @@ end
 post "/time" do
   entry = TimeEntry.new(params)
   if entry.save
-    @entries = TimeEntry.all(:order => :date.desc)
+    @entries = TimeEntry.page_default
     haml :_grid, :layout => false
   else
-    "fail"
+    error 500, "Save or update failed"
   end
 end
 
@@ -49,12 +48,12 @@ post "/time/:id" do
   entry = TimeEntry.get(params[:id])
   entry.user = User.get(params.delete(:user_id))
   entry.project = Project.get(params.delete(:project_id))
-  entry.update(params)
+  entry.attributes(params)
   if entry.save
-    @entries = TimeEntry.all(:order => :date.desc)
+    @entries = TimeEntry.page_default
     haml :_grid, :layout => false
   else
-    "fail"
+    error 500, "Save or update failed"
   end
 end
 
@@ -69,13 +68,11 @@ get "/entries" do
   content_type :json
   @entries = TimeEntry.paginate(:page => params[:page], :limit => params[:limit], :order => :date.desc)
   grid = escape_html(haml(:_grid, :layout => false)).to_json
-  "{"\
-  + "\"grid\":#{grid},"\
-  + "\"pager\":#{pager_json(@entries.pager)}"\
-  + "}"
+  page_clicked_json(grid, @entries.pager)
 end
 
 get "/css/:stylesheet.css" do
   content_type "text/css", :charset => "utf-8"
   sass :"stylesheets/#{params[:stylesheet]}", :style => :compact
 end
+
