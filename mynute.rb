@@ -46,10 +46,9 @@ end
 
 post "/time/:id" do
   entry = TimeEntry.get(params[:id])
-  entry.user = User.get(params.delete(:user_id))
-  entry.project = Project.get(params.delete(:project_id))
-  entry.attributes(params)
-  if entry.save
+  params[:user] = User.get(params.delete("user_id"))
+  params[:project] = Project.get(params.delete("project_id"))
+  if entry.update(params)
     @entries = TimeEntry.page_default
     haml :_grid, :layout => false
   else
