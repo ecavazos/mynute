@@ -56,7 +56,7 @@ Mynute.app = {
         $("#entry_type").val(entry.entry_type);
         $("#project_id").val(entry.project.id);
         $("#billing_type").val(entry.billing_type);
-        $("#date").val(entry.date);
+        $("#date").val(Mynute.app.setDate(new Date(entry.date)));
         $("#duration").val(entry.duration);
         $("#desc").val(entry.desc);
       }
@@ -116,11 +116,15 @@ Mynute.app = {
     this.bindEditAndDelete();
   },
 
-  setDate: function () {
-    var today = new Date();
-    var dt = (today.getMonth() + 1)
-           + "/" + today.getDate()
-           + "/" + today.getFullYear();
+  setDate: function (date) {
+    if (date) {
+      date.setDate(date.getDate() + 1)
+    } else {
+      date = new Date();
+    }
+    var dt = (date.getMonth() + 1)
+           + "/" + date.getDate()
+           + "/" + date.getFullYear();
     $("#date").val(dt);
   }
 };
