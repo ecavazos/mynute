@@ -78,7 +78,6 @@ Mynute.app = {
       data: $(this).serialize(),
       dataType: "html",
       success: function (result) {
-        // TODO: get back paged results
         Mynute.app.postSuccess(result);
       }
     });

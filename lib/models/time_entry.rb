@@ -1,4 +1,5 @@
 require "lib/paginator"
+require "dm-timestamps"
 
 class TimeEntry
   include DataMapper::Resource
@@ -8,9 +9,11 @@ class TimeEntry
   property :desc,         String
   property :date,         Date
   property :duration,     Float
-  property :created_at,   DateTime
   property :entry_type,   String
   property :billing_type, String
+
+  property :created_at,   DateTime
+  property :created_on,   DateTime
   
   belongs_to :user
   belongs_to :project
