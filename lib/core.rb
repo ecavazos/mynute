@@ -17,5 +17,12 @@ module Mynute
       "{ \"grid\":#{grid},"\
       + "\"pager\":#{pager_json(pager)}}"
     end
+
+    def to_csv(entries)
+      csv = entries.map do |e|
+        "#{e.user.fullname},"\
+        "#{e.entry_type},"\
+      end
+    end
   end
 end

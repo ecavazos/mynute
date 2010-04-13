@@ -3,21 +3,21 @@ require "lib/helpers"
 require "ostruct"
 
 describe Mynute::Helpers do
-  
+
   let :helper do
     Class.new do
       extend Mynute::Helpers
     end
   end
-  
+
   it "should read the constatnts of class into option tags" do
     helper.should_receive(:haml_tag).with(:option, "Billable")
     helper.should_receive(:haml_tag).with(:option, "Non Billable")
     helper.should_receive(:haml_tag).with(:option, "No Charge")
-    
+
     helper.constants_to_options(BillingType)
   end
-  
+
   describe "lookup_options" do
     let :mock_entity_class do
       Class.new do
@@ -28,18 +28,18 @@ describe Mynute::Helpers do
         end
       end
     end
-  
+
     it "should read all records into option tags" do
       helper.should_receive(:haml_tag).with(:option, "foo", {:value => 1})
       helper.should_receive(:haml_tag).with(:option, "bar", {:value => 2})
       helper.lookup_options(mock_entity_class)
     end
-    
+
     it "should accept a custom attribute name for display text" do
       helper.should_receive(:haml_tag).with(:option, "bar", {:value => 1})
       helper.should_receive(:haml_tag).with(:option, "foo", {:value => 2})
       helper.lookup_options(mock_entity_class, :name2)
     end
   end
-  
+
 end

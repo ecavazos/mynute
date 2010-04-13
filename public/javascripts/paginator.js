@@ -5,12 +5,12 @@ var Mynute = Mynute || {};
 Mynute.paginator = {
 
   paginate: function(params) {
-    
-    // params = { total: 14, page: 1, limit: 5, pageCount: 3 }; 
+
+    // params = { total: 14, page: 1, limit: 5, pageCount: 3 };
     var _params = params || {},
         _self   = this,
         _window = 5,
-        _table  = ".entries", 
+        _table  = ".entries",
         _status = "#status",
         _pager  = "#pager",
         _pages  = [];

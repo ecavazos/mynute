@@ -1,10 +1,10 @@
 require "lib/paginator"
-require "dm-timestamps"
+#require "dm-timestamps"
 
 class TimeEntry
   include DataMapper::Resource
   include Paginator
-  
+
   property :id,           Serial
   property :desc,         String
   property :date,         Date
@@ -14,10 +14,10 @@ class TimeEntry
 
   property :created_at,   DateTime
   property :created_on,   DateTime
-  
+
   belongs_to :user
   belongs_to :project
-  
+
   def self.page_default
     paginate(:limit => 5, :order => :date.desc)
   end
@@ -25,7 +25,7 @@ class TimeEntry
   def display_date
     self.date.strftime("%m/%d/%Y")
   end
-  
+
   def parse_date(date)
     self.date = date and return if date.is_a?(Date)
     date.gsub!(/-/, "/")
@@ -36,7 +36,7 @@ class TimeEntry
     end
     self.date = Date.strptime(date, fmt)
   end
-  
+
   before :save do
     parse_date(self.date)
   end
