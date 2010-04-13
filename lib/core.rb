@@ -19,10 +19,18 @@ module Mynute
     end
 
     def to_csv(entries)
-      csv = entries.map do |e|
-        "#{e.user.fullname},"\
-        "#{e.entry_type},"\
+      csv = ""
+      entries.each do |e|
+        csv = "'#{e.user.fullname}',"\
+        "'#{e.entry_type}',"\
+        "'#{e.project.client.name}',"\
+        "'#{e.project.name}',"\
+        "'#{e.billing_type}',"\
+        "'#{e.display_date}',"\
+        "'#{e.duration}',"\
+        "'#{e.desc}'\n"\
       end
+      csv.to_s
     end
   end
 end
