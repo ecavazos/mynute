@@ -21,16 +21,20 @@ module Mynute
     def to_csv(entries)
       csv = ""
       entries.each do |e|
-        csv = "'#{e.user.fullname}',"\
-        "'#{e.entry_type}',"\
-        "'#{e.project.client.name}',"\
-        "'#{e.project.name}',"\
-        "'#{e.billing_type}',"\
-        "'#{e.display_date}',"\
-        "'#{e.duration}',"\
-        "'#{e.desc}'\n"\
+        csv += "#{escape_csv(e.user.fullname)},"\
+        "#{escape_csv(e.entry_type)},"\
+        "#{escape_csv(e.project.client.name)},"\
+        "#{escape_csv(e.project.name)},"\
+        "#{escape_csv(e.billing_type)},"\
+        "#{escape_csv(e.display_date)},"\
+        "#{escape_csv(e.duration)},"\
+        "#{escape_csv(e.desc)}\n"\
       end
       csv.to_s
+    end
+
+    def escape_csv(value)
+      "\"#{value.to_s.gsub(/"/, '""')}\""
     end
   end
 end

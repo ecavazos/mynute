@@ -70,6 +70,12 @@ get "/entries" do
   page_clicked_json(grid, @entries.pager)
 end
 
+get "/csv" do
+  content_type :csv
+  @entries = TimeEntry.paginate(:page => params[:page], :limit => params[:limit], :order => :date.desc)
+  to_csv(@entries)
+end
+
 get "/css/:stylesheet.css" do
   content_type "text/css", :charset => "utf-8"
   sass :"stylesheets/#{params[:stylesheet]}", :style => :compact
