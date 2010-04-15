@@ -13,6 +13,8 @@
         #header-actions
           %a.add-time{ :href => "" } Add Time
       = yield
+    #footer
+      %a{ :href => "/export" } Export to CSV
 
       = @pager_json
       %script{:src => "/javascripts/jquery.js", :type => "text/javascript"}

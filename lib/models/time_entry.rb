@@ -1,5 +1,5 @@
 require "lib/paginator"
-#require "dm-timestamps"
+require "dm-timestamps"
 
 class TimeEntry
   include DataMapper::Resource
@@ -24,6 +24,10 @@ class TimeEntry
 
   def display_date
     self.date.strftime("%m/%d/%Y")
+  end
+
+  def self.all_by_date_desc
+    self.all(:order => :date.desc)
   end
 
   def parse_date(date)

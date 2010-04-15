@@ -59,8 +59,8 @@ end
 delete "/time/:id" do
   entry = TimeEntry.get(params[:id])
   entry.destroy!
-  @entries = TimeEntry.all(:order => :date.desc)
-  haml :_grid, :layout => false 
+  @entries = TimeEntry.page_default
+  haml :_grid, :layout => false
 end
 
 get "/entries" do
@@ -70,10 +70,9 @@ get "/entries" do
   page_clicked_json(grid, @entries.pager)
 end
 
-get "/csv" do
+get "/export" do
   content_type :csv
-  @entries = TimeEntry.paginate(:page => params[:page], :limit => params[:limit], :order => :date.desc)
-  to_csv(@entries)
+  to_csv(TimeEntry.all_by_date_desc)
 end
 
 get "/css/:stylesheet.css" do
