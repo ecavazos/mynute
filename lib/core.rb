@@ -1,5 +1,9 @@
 module Mynute
   module Core
+    def save_fail
+      error 500, "Save or update failed"
+    end
+
     def pager_json(pager)
       {
         :total     => pager.total,

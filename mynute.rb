@@ -9,7 +9,7 @@ require "lib/models"
 require "lib/core"
 require "lib/helpers"
 
-VERSION = "0.0.4"
+VERSION = "0.0.5"
 
 set :haml, {:format => :html5 }
 
@@ -40,7 +40,7 @@ post "/time" do
     @entries = TimeEntry.page_default
     haml :_grid, :layout => false
   else
-    error 500, "Save or update failed"
+    save_fail
   end
 end
 
@@ -52,7 +52,7 @@ post "/time/:id" do
     @entries = TimeEntry.page_default
     haml :_grid, :layout => false
   else
-    error 500, "Save or update failed"
+    save_fail
   end
 end
 

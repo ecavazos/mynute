@@ -1,7 +1,7 @@
 var Mynute = Mynute || {};
 
 Mynute.app = {
-  
+
   form: $("#time-entry"),
 
   initAjaxCallbacks: function () {
@@ -30,21 +30,31 @@ Mynute.app = {
   showNewForm: function (event) {
     var form = Mynute.app.form;
     if (form.css("display") == "block") {
+
+      var offset = $(this).offset();
+
       $("#warning").remove();
       $("body").prepend('<div id="warning"></div>');
+
       $("#warning").text("You must submit or discard your changes before adding a new time entry")
-        .fadeOut(5000, function () {
+        .delay(3000)
+        .fadeOut("fast", function () {
           $("#warning").remove();
+        })
+        .css({
+          top: $("#header").offset().top + $("#header").outerHeight() + 10,
+          left: offset.left + $(this).outerWidth() - $("#warning").outerWidth()
         });
-      
+
       return false;
     }
+
     form.attr("action", "/time");
     form.show();
     Mynute.app.setDate();
     event.preventDefault();
   },
-  
+
   showEditForm: function (event) {
     if (Mynute.app.form.css("display") != "block") Mynute.app.form.show();
     Mynute.loader.show(Mynute.app.form);
@@ -63,13 +73,13 @@ Mynute.app = {
     });
     event.preventDefault();
   },
-  
+
   discardForm: function (event) {
     Mynute.app.form.hide();
     Mynute.app.resetFormValues();
     event.preventDefault();
   },
-  
+
   submitForm: function (event) {
     Mynute.loader.show(Mynute.app.form);
     $.ajax({
@@ -83,7 +93,7 @@ Mynute.app = {
     });
     event.preventDefault();
   },
-  
+
   deleteTimeEntry: function (event) {
     Mynute.loader.show($(".entries"));
     $.ajax({
