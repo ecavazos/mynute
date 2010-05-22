@@ -12,6 +12,6 @@ TODO
   * edit
   * delete
   * messages
-* Implement some form of authentication
+* Add warden authentication
 * Display errors closer to the user event that caused the error
 * Add user defined sorting

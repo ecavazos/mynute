@@ -20,7 +20,8 @@ Mynute.app = {
   },
 
   initEvents: function () {
-    $(".add-time").live("click", Mynute.app.showNewForm);
+    $(".add-time").parent().bind("click", Mynute.app.showNewForm);
+
     $(".discard").live("click", Mynute.app.discardForm);
     $("#time-entry").live("submit", Mynute.app.submitForm);
     $(".edit").live("click", Mynute.app.showEditForm);
@@ -36,7 +37,8 @@ Mynute.app = {
       $("#warning").remove();
       $("body").prepend('<div id="warning"></div>');
 
-      $("#warning").text("You must submit or discard your changes before adding a new time entry")
+      $("#warning")
+        .text("You must submit or discard your changes before adding a new time entry")
         .delay(3000)
         .fadeOut("fast", function () {
           $("#warning").remove();
