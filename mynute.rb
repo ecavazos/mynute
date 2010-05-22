@@ -23,6 +23,10 @@ helpers do
   include Mynute::Helpers
 end
 
+use Rack::Auth::Basic do |username, password|
+  [username, password] == ['admin', 'admin']
+end
+
 get "/" do
   @entries = TimeEntry.page_default
   @pager_json = pager_html(@entries.pager)
