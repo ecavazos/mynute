@@ -6,4 +6,5 @@ $(function () {
   Mynute.app.initAjaxCallbacks();
   Mynute.app.initEvents();
   Mynute.paginator.paginate(pagerJson);
+  $("#date").datepicker();
 });

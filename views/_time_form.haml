@@ -1,11 +1,11 @@
 %form{ :id => "time-entry", :action => "/time", :method => "post"}
   .form-row
     .form-col
-      %label User:
+      %label Work Done By:
       %select{ :name => "user_id", :id => "user_id"}
         -lookup_options(User, :fullname)
     .form-col
-      %label Type:
+      %label Type Of Work:
       %select{ :name => "entry_type", :id => "entry_type"}
         -constants_to_options(EntryType)
     .form-col
@@ -21,7 +21,7 @@
       %label Date:
       %input{ :name => "date", :id => "date", :type => "text"}
     .form-col
-      %label Duration:
+      %label Time Spent:
       %input{ :name => "duration", :id => "duration", :type => "text"}
   .form-row
     .form-col
