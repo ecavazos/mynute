@@ -1,15 +1,15 @@
 %form{ :id => "time-entry", :action => "/time", :method => "post"}
   .form-row
     .form-col
-      %label Work Done By:
-      %select{ :name => "user_id", :id => "user_id"}
-        -lookup_options(User, :fullname)
-    .form-col
       %label Type Of Work:
       %select{ :name => "entry_type", :id => "entry_type"}
         -constants_to_options(EntryType)
     .form-col
-      %label Project:
+      %label Done By:
+      %select{ :name => "user_id", :id => "user_id"}
+        -lookup_options(User, :fullname)
+    .form-col
+      %label Project Name:
       %select{ :name => "project_id", :id => "project_id"}
         -lookup_options(Project)
     .form-col

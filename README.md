@@ -1,7 +1,10 @@
 Mynute
 ======
 
-This is a _tiny_ Sinatra app for tracking time. Details coming soon ...
+This is a _tiny_ Sinatra app for tracking time. Mynute provides a simple
+interface for entering and viewing your time.  CSV export is available.
+
+![Screenshot of Mynute](http://github.com/ecavazos/mynute/raw/master/public/images/mynute_ss.png)
 
 TODO
 ----
