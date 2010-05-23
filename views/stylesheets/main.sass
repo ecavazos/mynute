@@ -1,3 +1,16 @@
+$link_color: #0064E6
+
+@mixin box-shadow($x, $y, $blur, $color)
+  -moz-box-shadow:    $x $y $blur $color
+  -webkit-box-shadow: $x $y $blur $color
+  box-shadow:         $x $y $blur $color
+
+@mixin border-radius($radius)
+  -moz-border-radius:    $radius
+  -webkit-border-radius: $radius
+  border-radius:         $radius
+
+
 body
   background-color: #ccc
   color: #3d3d3d
@@ -12,17 +25,16 @@ body
   margin: 0
 
 a
-  color: #0064E6
+  color: $link_color
 
   &:visited
-    color: #0064E6
+    color: $link_color
+
 
 #main
   background-color: #fff
   border: solid 1px #bbb
-  -moz-box-shadow: 0px 2px 5px #666
-  -webkit-box-shadow: 0px 2px 5px #666
-  box-shadow: 0px 2px 5px #666
+  @include box-shadow(0px, 2px, 5px, #666)
   width: 720px
   margin: 20px auto
   padding: 10px
@@ -43,9 +55,7 @@ a
 
   .header-action
     border: solid 2px #424242
-    -moz-border-radius: 4px
-    -webkit-border-radius: 4px
-    border-radius: 4px
+    @include border-radius(4px)
     cursor: pointer
     float: right
     font-size: 11px
@@ -69,6 +79,7 @@ form#time-entry
   font-size: 12px
   margin: -10px 10px 10px 10px
   padding: 20px 10px 10px 10px
+
   .form-row
     margin: 0 auto 10px auto
     overflow: hidden
@@ -111,9 +122,7 @@ form#time-entry
   color: #fff
   font-size: 11px
   padding: 4px 7px
-  -moz-border-radius: 5px
-  -webkit-border-radius: 5px
-  border-radius: 5px
+  @include border-radius(5px)
   text-decoration: none
 
   &:visited
@@ -152,9 +161,7 @@ form#time-entry
   color: #fff
   position: absolute
   width: 230px
-  -moz-border-radius: 8px
-  -webkit-border-radius: 8px
-  border-radius: 8px
+  @include border-radius(8px)
 
 #footer
   font-size: 12px
