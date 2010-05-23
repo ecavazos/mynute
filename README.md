@@ -8,6 +8,10 @@ your entered time to CSV.  Mynute can be hosted locally
 or on heroku.  Currently, it's secured using HTTP basic auth, but I plan to
 add support for warden in a future version.
 
+There aren't any screens available for managing user, client or project data.
+There is, however, a *db/seeds.rb* and a rake task that you can use for seeding
+a fresh install.
+
 ![Screenshot of Mynute](http://github.com/ecavazos/mynute/raw/master/public/images/mynute_ss.png)
 
 TODO

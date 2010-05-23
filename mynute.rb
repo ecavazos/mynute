@@ -9,7 +9,7 @@ require "lib/models"
 require "lib/core"
 require "lib/helpers"
 
-VERSION = "0.0.6"
+VERSION = "0.0.7"
 
 set :haml, {:format => :html5 }
 
