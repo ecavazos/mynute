@@ -14,7 +14,7 @@ VERSION = "0.0.8"
 set :haml, {:format => :html5 }
 
 configure :development do
-  DataMapper::Logger.new($stdout, :debug)
+  # DataMapper::Logger.new($stdout, :debug)
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db/mynute.db")
 end
 

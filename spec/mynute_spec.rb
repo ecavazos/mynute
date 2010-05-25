@@ -1,5 +1,6 @@
 require 'spec/spec_helper'
 require 'base64'
+require 'mocha'
 
 describe "Mynute" do
   include Rack::Test::Methods
@@ -19,19 +20,21 @@ describe "Mynute" do
     last_response.status.should == 200
   end
 
-  it 'test' do
-    get '/', {}, auth_block('admin', 'admin')
-    puts last_response.body
-    puts @app.instance_variable_get(:@entries).nil?
-    # @entries.nil?
-  end
-
   it 'should protect /' do
     get '/'
     last_response.should_not be_ok
     last_response.status.should == 401
   end
 
+  it 'should get time by id' do
+    get '/time/1', {}, auth_block('admin', 'admin')
+    last_response.should be_ok
+  end
+
+  it 'should protect /time/:id' do
+    get '/time/1'
+    last_response.status.should == 401
+  end
 end
 
 private
