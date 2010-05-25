@@ -9,11 +9,11 @@ require "lib/models"
 require "lib/core"
 require "lib/helpers"
 
-VERSION = "0.0.7"
+VERSION = "0.0.8"
 
 set :haml, {:format => :html5 }
 
-configure do
+configure :development do
   DataMapper::Logger.new($stdout, :debug)
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db/mynute.db")
 end
